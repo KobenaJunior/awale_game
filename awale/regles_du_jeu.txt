@@ -1,0 +1,31 @@
+## 🎮 Règles du Jeu
+
+Il s'agit d'un jeu de stratégie combinatoire abstrait (inspiré des mécaniques de l'Awalé / Mancala) opposant deux joueurs.
+
+### 🏢 Configuration initiale
+* **Le plateau** : Composé de 12 cases au total, réparties équitablement en 2 camps (6 cases par joueur).
+* **Les pions** : Au début de la partie, chaque case contient exactement **4 pions**.
+
+---
+
+### 🕹️ Déroulement d'un tour
+
+À son tour, un joueur choisit une case non vide de **son propre côté** du plateau. Il récupère tous les pions qu'elle contient et les sème un par un dans les cases suivantes, dans le **sens des aiguilles d'une montre**.
+
+Selon l'endroit où échoue le **dernier pion** distribué, deux scénarios sont possibles :
+
+#### 🏡 Case finale dans VOTRE camp
+Rien ne se passe. Le tour se termine immédiatement et passe au joueur suivant.
+
+#### ⚔️ Case finale dans le CAMP OPPOSÉ (Adversaire)
+L'issue dépend du nombre total de pions présents dans cette case finale après la distribution :
+
+* **Cas 1 : La case contient désormais 2 ou 3 pions 💰**
+  Vous capturez ces pions. La capture est ensuite **rétrograde** : vous remontez le plateau dans le *sens inverse des aiguilles d'une montre* pour vérifier la case précédente. Tant que vous êtes dans le camp adverse et que les cases contiennent 2 ou 3 pions, vous rafleez leur contenu. La capture s'arrête dès que :
+  * Vous tombez sur une case contenant 0, 1 ou plus de 3 pions.
+  * Vous quittez le camp de l'adversaire.
+
+* **Cas 2 : La case contient désormais plus de 3 pions 🔄**
+  La distribution continue ! Vous récupérez immédiatement tous les pions de cette case finale et vous recommencez à les semer un par un dans le sens des aiguilles d'une montre. Ce cycle de redistribution se répète jusqu'à ce que :
+  * Le dernier pion tombe dans votre propre camp.
+  * Vous tombiez sur le **Cas 1** (capture dans une case de 2 ou 3 pions).
