@@ -1,3 +1,5 @@
+# 10avril  2026 au 14 mai 2026
+
 from kivymd.app import MDApp
 from kivy.lang.builder import Builder
 from kivy.uix.screenmanager import Screen, ScreenManager
@@ -116,16 +118,25 @@ class HomeScreen(Screen):
                 self.pions_restant=sum(self.plateau)
                 self.id_pions_restant.text=f"Pions restant: {self.pions_restant}"
             
+                size_pions_A=sum(self.plateau[0:6])
+                size_pions_B=sum(self.plateau[6:12])
                 if(self.tour%2==0):
-                    if(sum(self.plateau[0:6])==0):
-                        self.pointB+=sum(self.plateau[6:12])
-                        self.game_over()
+                    if(size_pions_A==0):
+                        if(size_pions_B>4):
+                            self.tour+=1
+                        else:
+                            self.pointB+=size_pions_B
+                            self.game_over()
                     else:
                         Clock.schedule_once(self.naive_player,1.0)
                 elif(self.tour%2==1):
-                    if(sum(self.plateau[6:12])==0):
-                        self.pointA+=sum(self.plateau[0:6])
-                        self.game_over()
+                    if(size_pions_B==0):
+                        if(size_pions_A>4):
+                            self.tour+=1
+                            Clock.schedule_once(self.naive_player,1.0)
+                        else:
+                            self.pointA+=size_pions_A
+                            self.game_over()
                     else:
                         pass
             except Exception as e:
@@ -139,7 +150,7 @@ class HomeScreen(Screen):
             moteur=MoteurAwale()
             #profondeur defini le niveau de "reflexion" ici on prends une profondeur de 8 , un compromis entre performance, efficacité et rapidité
             choix=meilleur_coup(moteur, self.plateau, self.tour, self.pointA, self.pointB, 8)
-            print(f"\n\n Le choix pour l'algo est: {choix}\n\n")
+            print(f"\n\n Le choix pour l'algo est: {choix} pour le joueur {self.tour}\n\n")
             self.play(choix)
         except:
             print("\n\nerreur dans l'execution du Negamax\n\n")
